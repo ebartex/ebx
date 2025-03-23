@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   CommandDialog,
-  CommandInput,
   CommandEmpty,
   CommandGroup,
   CommandItem,
