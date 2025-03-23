@@ -1,6 +1,11 @@
+import CommandComponent from "./command"
+
+
 function Navbar() {
   return (
-    <div>Navbarsdsd</div>
+    <>
+    <CommandComponent/>
+    </>
   )
 }
 
