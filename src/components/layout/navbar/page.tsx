@@ -1,11 +1,10 @@
-import { CommandDialogDemo } from "./command"
-
+import { CommandDialog } from "./commandDialog"
 
 
 function Navbar() {
   return (
     <>
-    <CommandDialogDemo/>
+    <CommandDialog/>
     </>
   )
 }

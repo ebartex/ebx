@@ -19,33 +19,33 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@/components/ui/command"  // Upewnij się, że masz odpowiedni import dla `CommandDialog`
+} from "@/components/ui/command"
+import { Input } from "@/components/ui/input"
 
-export function CommandDialogDemo() {
+
+export function CommandDialog() {
   const [open, setOpen] = React.useState(false)
 
-  React.useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
-      }
-    }
+  // Funkcja do otwierania dialogu po kliknięciu w input
+  const openDialog = () => setOpen(true)
 
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
+  // Funkcja do zamykania dialogu
+  const closeDialog = () => setOpen(false)
 
   return (
     <>
-      <p className="text-sm text-muted-foreground">
-        Press{" "}
-        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          <span className="text-xs">⌘</span>J
-        </kbd>
-      </p>
+
+      {/* Input, który uruchamia dialog po kliknięciu */}
+      <Input
+        type="text"
+        onClick={openDialog}  // Otwiera dialog po kliknięciu
+        placeholder="Czego dziś szukasz?"
+        className="border p-2 rounded-md w-64"
+      />
+
+      {/* Dialog z shadcn */}
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput placeholder="Wpisz nazwę produktu kod kreskowy lub kod katalogowy..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
