@@ -1,38 +1,35 @@
 "use client";
 
 import * as React from "react";
-
 import {
   CommandDialog,
+  CommandInput,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 
 export function CommandDialogInput() {
   const [open, setOpen] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [results, setResults] = React.useState<any[]>([]); // Typowanie wyników z API
-  const [loading, setLoading] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState(""); // Przechowywanie zapytania
+  const [results, setResults] = React.useState<any[]>([]); // Wyniki wyszukiwania
+  const [loading, setLoading] = React.useState(false); // Flaga ładowania
 
-  // Funkcja do otwierania dialogu po kliknięciu w input
+  // Funkcja otwierająca dialog
   const openDialog = () => setOpen(true);
 
-  // Funkcja do obsługi zmiany wprowadzania tekstu
+  // Funkcja do obsługi zmiany tekstu w polu wyszukiwania
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchQuery(query);
-    console.log("Search Query:", query); // Sprawdź wartość query
 
+    // Rozpoczynaj wyszukiwanie po 3 znakach
     if (query.length > 2) {
-      fetchResults(query); // Dopiero po wpisaniu więcej niż 2 znaków rozpoczynamy wyszukiwanie
+      fetchResults(query);
     } else {
-      setResults([]); // Jeśli zapytanie jest krótkie, resetujemy wyniki
+      setResults([]); // Resetuj wyniki, jeśli zapytanie jest krótkie
     }
   };
 
@@ -40,21 +37,12 @@ export function CommandDialogInput() {
   const fetchResults = async (query: string) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://www.bapi2.ebartex.pl/tw/index?tw-nazwa=?${query}?`
-      );
+      const response = await fetch(`https://www.bapi2.ebartex.pl/tw/index?tw-nazwa=?${query}?`);
       const data = await response.json();
-      console.log("API Response:", data); // Zobacz, jak wygląda struktura danych
-
-      // Sprawdzenie, czy odpowiedź zawiera wyniki
-      if (Array.isArray(data)) {
-        setResults(data); // Zaktualizuj wyniki
-      } else {
-        setResults([]); // Jeśli odpowiedź nie jest tablicą, resetuj wyniki
-      }
+      setResults(data); // Zaktualizuj wyniki
     } catch (error) {
       console.error("Błąd podczas pobierania wyników:", error);
-      setResults([]); // W przypadku błędu resetuj wyniki
+      setResults([]);
     } finally {
       setLoading(false);
     }
@@ -67,24 +55,26 @@ export function CommandDialogInput() {
         type="text"
         onClick={openDialog} // Otwiera dialog po kliknięciu
         placeholder="Czego dziś szukasz?"
-        value={searchQuery}
-        onChange={handleSearchChange} // Obsługuje zmianę w polu tekstowym
-        className={`active:border-sky-600 transition-all focus:ring-2 focus:ring-sky-600 focus:ring-offset-1 focus:outline-none pl-6 pr-10 block w-full h-10 rounded-md text-sm border border-sky-700 focus:outline-none`}
+        className="active:border-none transition-all focus:ring-2 focus:ring-sky-600 focus:ring-offset-1 focus:outline-none pl-6 pr-10 block w-full h-10 rounded-md text-sm border border-sky-700 focus:outline-none"
       />
 
-      {/* Dialog z shadcn */}
+      {/* Dialog z ShadCN */}
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Wpisz nazwę produktu, kod kreskowy lub kod katalogowy..." />
-        <CommandList>
+        <Input
+          placeholder="Wpisz nazwę produktu, kod kreskowy lub kod katalogowy..."
+          value={searchQuery} // Wartość kontrolowana przez React
+          onChange={handleSearchChange} // Obsługuje zmiany tekstu
+        />
+        <CommandList className="h-2000">
           {loading ? (
             <CommandEmpty>Ładowanie wyników...</CommandEmpty>
           ) : results.length === 0 ? (
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>Brak wyników.</CommandEmpty>
           ) : (
             <CommandGroup heading="Wyniki wyszukiwania">
               {results.map((result, index) => (
                 <CommandItem key={index}>
-                  <span>{result.nazwa}</span> {/* Upewnij się, że pole 'nazwa' istnieje w odpowiedzi API */}
+                  <span>{result.nazwa}</span> {/* Zaktualizuj pole, jeśli struktura danych jest inna */}
                 </CommandItem>
               ))}
             </CommandGroup>
