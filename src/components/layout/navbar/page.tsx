@@ -1,10 +1,11 @@
-import CommandComponent from "./command"
+import { CommandDialogDemo } from "./command"
+
 
 
 function Navbar() {
   return (
     <>
-    <CommandComponent/>
+    <CommandDialogDemo/>
     </>
   )
 }
