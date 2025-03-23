@@ -23,14 +23,13 @@ import {
 import { Input } from "@/components/ui/input"
 
 
-export function CommandDialog() {
+export function CommandDialogInput() {
   const [open, setOpen] = React.useState(false)
 
   // Funkcja do otwierania dialogu po kliknięciu w input
   const openDialog = () => setOpen(true)
 
-  // Funkcja do zamykania dialogu
-  const closeDialog = () => setOpen(false)
+
 
   return (
     <>

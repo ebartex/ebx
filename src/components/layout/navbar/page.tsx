@@ -1,4 +1,4 @@
-import { CommandDialog } from "./commandDialog"
+import { CommandDialog } from "./commandDialogInput"
 
 
 function Navbar() {
