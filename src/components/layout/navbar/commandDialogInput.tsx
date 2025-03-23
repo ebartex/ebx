@@ -10,10 +10,15 @@ import {
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 
+// Definicja interfejsu dla wyników
+interface SearchResult {
+  nazwa: string; // Możesz dodać inne właściwości, które są w danych z API
+}
+
 export function CommandDialogInput() {
   const [open, setOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState(""); // Przechowywanie zapytania
-  const [results, setResults] = React.useState<any[]>([]); // Wyniki wyszukiwania
+  const [results, setResults] = React.useState<SearchResult[]>([]); // Wyniki wyszukiwania
   const [loading, setLoading] = React.useState(false); // Flaga ładowania
 
   // Funkcja otwierająca dialog
@@ -37,7 +42,7 @@ export function CommandDialogInput() {
     setLoading(true);
     try {
       const response = await fetch(`https://www.bapi2.ebartex.pl/tw/index?tw-nazwa=?${query}?`);
-      const data = await response.json();
+      const data: SearchResult[] = await response.json(); // Zakładając, że API zwraca dane w tym formacie
       setResults(data); // Zaktualizuj wyniki
     } catch (error) {
       console.error("Błąd podczas pobierania wyników:", error);
