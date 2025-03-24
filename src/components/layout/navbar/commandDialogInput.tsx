@@ -138,7 +138,7 @@ export function CommandDialogInput() {
         ): (
           <div className="p-4 border-t border-gray-200">
             <button
-            disabled="disabled"
+          
               className="w-full bg-slate-200 text-white py-2 rounded-md"
               onClick={handleGoToResultsClick}
             >
