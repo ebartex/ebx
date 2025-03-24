@@ -83,22 +83,23 @@ export function CommandDialogInput() {
   return (
     <>
       {/* Input, który uruchamia dialog po kliknięciu */}
+ 
       <Input
         type="text"
         onClick={openDialog} // Otwiera dialog po kliknięciu
         placeholder="Czego dziś szukasz?"
         className="active:border-none transition-all focus:ring-2 focus:ring-sky-600 focus:ring-offset-1 focus:outline-none pl-6 pr-10 block w-full h-10 rounded-md text-sm border border-sky-700 focus:outline-none"
       />
-
+  
       {/* Dialog z ShadCN */}
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <div className="relative">
+       
           <Input
             placeholder="Wpisz nazwę produktu, kod kreskowy lub kod katalogowy..."
             value={searchQuery} // Wartość kontrolowana przez React
             onChange={handleSearchChange} // Obsługuje zmiany tekstu
           />
-        </div>
+ 
         <CommandList className="h-2000">
           {loading || results.length === 0 ? (
       <CommandEmpty>
@@ -107,7 +108,7 @@ export function CommandDialogInput() {
           <Skeleton key={index} className="h-12 mb-2" />
         ))
       ) : (
-        <span>Brak wyników</span>
+        <span></span>
       )}
     </CommandEmpty>
           ) : (
@@ -125,7 +126,7 @@ export function CommandDialogInput() {
         </CommandList>
 
         {/* Footer z przyciskiem "Przejdź do wyników" */}
-        {searchQuery.length > 2 && (
+        {searchQuery.length > 2 ? (
           <div className="p-4 border-t border-gray-200">
             <button
               className="w-full bg-blue-600 text-white py-2 rounded-md"
@@ -134,8 +135,19 @@ export function CommandDialogInput() {
               Przejdź do wyników
             </button>
           </div>
+        ): (
+          <div className="p-4 border-t border-gray-200">
+            <button
+            disabled="disabled"
+              className="w-full bg-slate-200 text-white py-2 rounded-md"
+              onClick={handleGoToResultsClick}
+            >
+              Przejdź do wyników
+            </button>
+        </div>
         )}
       </CommandDialog>
+
     </>
   );
 }
