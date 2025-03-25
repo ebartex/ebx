@@ -113,7 +113,7 @@ export function CommandDialogInput() {
     </CommandEmpty>
           ) : (
             <CommandGroup heading="Wyniki wyszukiwania">
-              {results.slice(0, 6).map((result, index) => (
+              {results.map((result, index) => (
                 <CommandItem key={index}>
                   <span>
                     <Image src="/products_thumbs.png" alt="logo" width={30} height={30} />
